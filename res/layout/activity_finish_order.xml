@@ -89,6 +89,76 @@
             </LinearLayout>
 
             <View style="@style/blackline" />
+
+            <View
+                style="@style/blackline"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="8dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="配送方式：单笔订单满" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50元" />
+            </LinearLayout>
+
+            <View
+                style="@style/blackline"
+                android:layout_marginLeft="8dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="商品金额" />
+
+                <TextView
+                    android:id="@+id/shopping_all_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="￥200"
+                    android:textColor="@color/app_pink"
+                    android:textSize="@dimen/caption" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="8dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="运费" />
+
+                <TextView
+                    
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="￥200"
+                    android:textColor="@color/app_pink"
+                    android:textSize="@dimen/caption" />
+            </RelativeLayout>
+
+            <View style="@style/blackline" />
         </LinearLayout>
     </ScrollView>
 
@@ -133,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥200"
-                android:textColor="@color/tag_blue"
+                android:textColor="@color/app_pink"
                 android:textSize="@dimen/caption" />
         </LinearLayout>
     </RelativeLayout>
