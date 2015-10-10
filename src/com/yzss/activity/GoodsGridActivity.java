@@ -101,6 +101,7 @@ public class GoodsGridActivity extends BaseActivity {
 			public void onRefresh(PullToRefreshBase<GridView> refreshView) {
 				// TODO Auto-generated method stub
 				loadData(url);
+		
 			}
 		});// 销量▽价格△
 
@@ -111,6 +112,11 @@ public class GoodsGridActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				price = "";
+				item_price.setText("价格△");
+				active_gridview.setMode(Mode.PULL_FROM_END);
+				pno=0;
+				data.clear();
 				if (sales.equals("desc")) {
 					sales = "asc";
 					item_sales.setText("销量△");
@@ -128,8 +134,11 @@ public class GoodsGridActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				sales="";
+				item_sales.setText("销量▽");
 				active_gridview.setMode(Mode.PULL_FROM_END);
 				pno=0;
+				data.clear();
 				if (price.equals("asc")) {
 					price = "desc";
 					item_price.setText("价格▽");
@@ -138,28 +147,30 @@ public class GoodsGridActivity extends BaseActivity {
 					item_price.setText("价格△");
 				}
 				url = UrlConfig
-						.getGoodsList(cate_id, "", psize, pno, "", price);
+						.getGoodsList(cate_id, "", psize, pno, sales, price);
 				loadData(url);
 			}
 		});
-		url = UrlConfig.getGoodsList(cate_id, "", psize, pno, "", "");
+		url = UrlConfig.getGoodsList(cate_id, "", psize, pno, sales, price);
 		loadData(url);
 	}
 
-	private void loadData(String url) {
+	private void loadData(String turl) {
+		
 		if (Utils.isNetWorkConnected(GoodsGridActivity.this)) {
+			String url=UrlConfig.getGoodsList(cate_id, "", psize, pno, sales, price);
 			HttpUtil.get(url, new jsonHttpResponseHandler() {
 				@Override
 				public void onSuccess(JSONObject arg0) {
 					// TODO Auto-generated method stub
 					ProductBean product = JSON.parseObject(
-							Utils.getResult(arg0), ProductBean.class);
-					data.clear();
+							Utils.getResult(arg0), ProductBean.class);					
 					data.addAll(product.getDatas());
 					mAdapter.notifyDataSetChanged();
 					active_gridview.onRefreshComplete();
 					if (product.getDatas().size() < psize) {
 						active_gridview.setMode(Mode.DISABLED);
+						Utils.ToastMessage(GoodsGridActivity.this, "已加载全部");
 					} else {
 						pno++;
 					}
