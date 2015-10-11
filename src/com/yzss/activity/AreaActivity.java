@@ -135,7 +135,9 @@ public class AreaActivity extends BaseActivity {
 		goodlist.addAll(area.getGoods_banner());
 		mGAdapter.notifyDataSetChanged();
 		mLAdapter.notifyDataSetChanged();
+		if(area.getTop_banner().size()>0){
 		ImageLoader.getInstance().displayImage(
 				area.getTop_banner().get(0).getImg_url(), active_top_banner);
+		}
 	}
 }

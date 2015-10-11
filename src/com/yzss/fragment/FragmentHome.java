@@ -136,14 +136,11 @@ public class FragmentHome extends BaseFragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.putExtra("area_id", arg2 + 1);
-				intent.setClass(getActivity(), AreaActivity.class);
 				if (arg2 == 3) {
-					intent.setClass(getActivity(), OrderActivity.class);
+					Utils.toOrder(getActivity(), "");
+				} else {
+					Utils.toArea(getActivity(), arg2 + 1);
 				}
-
-				startActivity(intent);
 			}
 		});
 		/**** game ******************/
