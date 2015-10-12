@@ -87,8 +87,8 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 			vh.item_order_group_del.setVisibility(View.VISIBLE);
 		}
 
-		// "order_status": 1, 订单状态0未确认,1确认,2已取消,3无效,4退货
-		// "shipping_status": 0, 商品配送情况;0未发货,1已发货,2已收货,4退货
+		// "order_status": 1, 订单状态0未确认,1确认,2已取消,3无效,4退货 
+		// "shipping_status": 0, 商品配送情况;0未发货,1已发货,2已收货,3没有4退货
 		// "pay_status": 0, 支付状态;0未付款;1付款中;2已付款
 		String oState = "";
 		switch (data.get(arg0).getShipping_status()) {
