@@ -40,10 +40,17 @@
             android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/yz_background_gift" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <ImageView
             android:layout_width="match_parent"
@@ -65,10 +72,10 @@
                 android:text="支付金额:" />
 
             <ListView
-                android:divider="@null"
                 android:id="@+id/gift_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:divider="@null" />
         </LinearLayout>
 
         <com.yzss.custom.View.Generally.FancyButton
@@ -80,7 +87,6 @@
             fancy:fb_focusColor="@color/app_focus_color"
             fancy:fb_radius="2dp"
             fancy:fb_text="确认"
-           
             fancy:fb_textColor="@color/white" />
     </LinearLayout>
 

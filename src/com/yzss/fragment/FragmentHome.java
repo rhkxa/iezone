@@ -29,8 +29,6 @@ import com.alibaba.fastjson.JSON;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-import com.yzss.activity.AreaActivity;
-import com.yzss.activity.OrderActivity;
 import com.yzss.activity.R;
 import com.yzss.activity.SearchActivity;
 import com.yzss.adapter.HomeActiveListViewAdapter;
@@ -139,7 +137,8 @@ public class FragmentHome extends BaseFragment {
 				if (arg2 == 3) {
 					Utils.toOrder(getActivity(), "");
 				} else {
-					Utils.toArea(getActivity(), arg2 + 1);
+					Utils.ToastMessage(getActivity(), "尽请期待……");
+					// Utils.toArea(getActivity(), arg2 + 1);
 				}
 			}
 		});

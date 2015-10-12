@@ -7,9 +7,33 @@ public class InitOrderBean {
 	private String sn;
 	private BnAddress address;
 	private List<BnShopping> items;
+	private Bnfare shipping;
 	private int count;
 	private double amount;
+	private double bill_amount;
+	private double freight;
 	
+	
+	
+	
+	public Bnfare getShipping() {
+		return shipping;
+	}
+	public void setShipping(Bnfare shipping) {
+		this.shipping = shipping;
+	}
+	public double getBill_amount() {
+		return bill_amount;
+	}
+	public void setBill_amount(double bill_amount) {
+		this.bill_amount = bill_amount;
+	}
+	public double getFreight() {
+		return freight;
+	}
+	public void setFreight(double freight) {
+		this.freight = freight;
+	}
 	public String getSn() {
 		return sn;
 	}
