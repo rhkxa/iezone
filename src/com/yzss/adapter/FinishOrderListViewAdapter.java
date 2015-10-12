@@ -69,9 +69,12 @@ public class FinishOrderListViewAdapter extends BaseAdapter {
 		vh.item_goods_introduce.setText(data.get(arg0).getName());
 		vh.item_goods_price.setText("￥" + data.get(arg0).getPrice());
 		vh.item_goods_number.setText("×" + data.get(arg0).getQuantity());
-//		vh.item_goods_parameters.setText(data.get(arg0).getSpecs().get(0)
-//				.getSpec_name()
-//				+ data.get(arg0).getSpecs().get(0).getSpec_value());
+		if (data.get(arg0).getSpecs().size() > 0) {
+			vh.item_goods_parameters.setText(data.get(arg0).getSpecs().get(0)
+					.getSpec_name()
+					+ data.get(arg0).getSpecs().get(0).getSpec_value());
+		}
+
 		return arg1;
 	}
 

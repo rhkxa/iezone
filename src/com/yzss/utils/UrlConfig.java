@@ -319,7 +319,6 @@ public class UrlConfig {
 		return SERVER + "agent/to_balance" + "?uid=" + uid + "&amount="
 				+ amount;
 	}
-	// 转入余额
 	public static final String getWx(String uid, String order_sn) {
 		return SERVER + "order/weixin" + "?uid=" + uid + "&order_sn="
 				+ order_sn;

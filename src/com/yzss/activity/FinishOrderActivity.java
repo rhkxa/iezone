@@ -3,8 +3,6 @@ package com.yzss.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -38,7 +36,11 @@ public class FinishOrderActivity extends BaseActivity {
 	private TextView order_details_address_name;
 	private TextView order_details_address_phone;
 	private TextView order_details_address_details;
+	private TextView order_details_shop_fare;
+	private TextView order_details_shop_price;
+	private TextView order_details_shop_price_desc;
 	private TextView shopping_all_money;
+	
 	private FancyButton shopping_ok;
 	private LinearLayout address_layout;
 
@@ -73,6 +75,9 @@ public class FinishOrderActivity extends BaseActivity {
 		order_details_address_name = (TextView) findViewById(R.id.order_details_address_name);
 		order_details_address_phone = (TextView) findViewById(R.id.order_details_address_phone);
 		order_details_address_details = (TextView) findViewById(R.id.order_details_address_details);
+		order_details_shop_price = (TextView) findViewById(R.id.order_details_shop_price);
+		order_details_shop_fare = (TextView) findViewById(R.id.order_details_shop_fare);
+		order_details_shop_price_desc = (TextView) findViewById(R.id.order_details_shop_price_desc);
 		shopping_all_money = (TextView) findViewById(R.id.shopping_all_money);
 		shopping_ok = (FancyButton) findViewById(R.id.shopping_ok);
 		shopping_ok.setOnClickListener(new OnClickListener() {
@@ -127,6 +132,9 @@ public class FinishOrderActivity extends BaseActivity {
 			order_details_address_details.setText(bean.getAddress()
 					.getFull_address());
 		}
+		order_details_shop_price_desc.setText(bean.getShipping().getDesc());
+		order_details_shop_fare.setText("￥" + bean.getFreight());
+		order_details_shop_price.setText("￥" + bean.getBill_amount());
 		shopping_all_money.setText("￥" + bean.getAmount());
 	}
 

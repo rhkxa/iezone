@@ -76,8 +76,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
 				Log.e(TAG, "error : ", e);
 			}
 			// 退出程序
-			android.os.Process.killProcess(android.os.Process.myPid());
-			System.exit(1);
+			YZSSApplication.getInstance().exit();
+//			android.os.Process.killProcess(android.os.Process.myPid());
+//			System.exit(1);
 		}
 	}
 
@@ -96,7 +97,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			@Override
 			public void run() {
 				Looper.prepare();
-				Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.", Toast.LENGTH_LONG)
+				Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出.(用来调试jia)", Toast.LENGTH_LONG)
 						.show();
 				Looper.loop();
 			}

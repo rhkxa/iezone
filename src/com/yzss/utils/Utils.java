@@ -24,8 +24,6 @@ import com.yzss.bean.BnUser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -509,7 +507,7 @@ public class Utils {
 	}
 
 	public static void toShop(Context context) {
-		Class cls = null;
+		Class<?> cls = null;
 		if (isLogin(context)) {
 			cls = ShoppingActivity.class;
 
