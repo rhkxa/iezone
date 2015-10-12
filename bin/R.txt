@@ -964,11 +964,11 @@ int id setup_update 0x7f0500c5
 int id setup_user 0x7f0500bf
 int id sex_man 0x7f050030
 int id sex_woman 0x7f050031
-int id shopping_all_money 0x7f05005c
+int id shopping_all_money 0x7f05005b
 int id shopping_all_total 0x7f0500c8
 int id shopping_economize 0x7f0500c9
 int id shopping_listview 0x7f0500c6
-int id shopping_ok 0x7f05005b
+int id shopping_ok 0x7f05005c
 int id show_text 0x7f0500db
 int id single_select_chk 0x7f050173
 int id single_select_root 0x7f050174
