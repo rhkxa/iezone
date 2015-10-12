@@ -31,7 +31,7 @@ public class YZSSApplication extends FrontiaApplication {
 	private List<Activity> activities = new ArrayList<Activity>();
 	private static YZSSApplication instance;
 	// 用于存放倒计时时间
-		public static Map<String, Long> map;
+	public static Map<String, Long> map;
 
 	public static YZSSApplication getInstance() {
 		if (null == instance) {
@@ -50,10 +50,11 @@ public class YZSSApplication extends FrontiaApplication {
 		// }
 
 		super.onCreate();
-		//initLocation(getApplicationContext());
-		//initPush(getApplicationContext());
+		// initLocation(getApplicationContext());
+		// initPush(getApplicationContext());
 		initImageLoader(getApplicationContext());
-
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(getApplicationContext());
 	}
 
 	public void addActivity(Activity activity) {

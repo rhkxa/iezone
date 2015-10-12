@@ -426,13 +426,13 @@ public class Utils {
 		context.startActivity(intent);
 	}
 
-	public static void toArea(Context context, String area_id) {
+	public static void toArea(Context context, int area_id) {
 		Intent intent = new Intent(context, AreaActivity.class);
 		intent.putExtra("area_id", area_id);
 		context.startActivity(intent);
 	}
 
-	public static void toOrder(Context context, String order_id) {
+	public static void toOrderDetail(Context context, String order_id) {
 		Intent intent = new Intent(context, OrderActivity.class);
 		intent.putExtra("order_id", order_id);
 		context.startActivity(intent);
@@ -533,6 +533,18 @@ public class Utils {
 		intent.putExtra("money", money);
 		context.startActivity(intent);
 	}
+
+	public static void toOrder(Context context, String state) {
+		if(isLogin(context)){
+			Intent intent = new Intent(context, OrderActivity.class);
+			intent.putExtra("state", state);
+			context.startActivity(intent);
+		}else{
+			toLogin(context);
+		}
+		
+	}
+	
 
 	public static void toAction(Context context, BnAction action) {
 		switch (action.getType()) {
