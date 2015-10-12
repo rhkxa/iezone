@@ -137,7 +137,7 @@ public class FragmentHome extends BaseFragment {
 				if (arg2 == 3) {
 					Utils.toOrder(getActivity(), "");
 				} else {
-					Utils.ToastMessage(getActivity(), "尽请期待……");
+					Utils.ToastMessage(getActivity(), "敬请期待……");
 					// Utils.toArea(getActivity(), arg2 + 1);
 				}
 			}

@@ -30,9 +30,6 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return data.size();
-
-		// return 3;
-
 	}
 
 	@Override
@@ -81,7 +78,6 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 				.getItems());
 		vh.childListView.setAdapter(mAdapter);
 		vh.order_total_money.setText("￥" + data.get(arg0).getAmount());
-		System.out.println("共：" + data.get(arg0).getCount() + "件 实付：");
 		vh.order_total.setText("共：" + data.get(arg0).getCount() + "件 实付：");
 		if (data.get(arg0).getOrder_status().equals("1")) {
 			vh.item_order_group_ok.setVisibility(View.VISIBLE);
