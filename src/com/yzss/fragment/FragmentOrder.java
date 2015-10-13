@@ -2,15 +2,12 @@ package com.yzss.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.json.JSONObject;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
 import com.alibaba.fastjson.JSON;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.yzss.activity.R;
@@ -43,7 +40,6 @@ public class FragmentOrder extends BaseFragment {
 		FragmentOrder fragment = new FragmentOrder();
 		fragment.tag = tag;
 		return fragment;
-
 	}
 
 	/* 用来标记订单的状态待收货与往期订单 */
@@ -109,6 +105,7 @@ public class FragmentOrder extends BaseFragment {
 			public void onSuccess(JSONObject arg0) {
 				// TODO Auto-generated method stub
 				if (Utils.requestOk(arg0)) {
+					Utils.ToastMessage(getActivity(), "操作成功");
 					data.remove(position);
 					mAdapter.notifyDataSetChanged();
 				}
