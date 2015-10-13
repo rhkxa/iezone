@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.yzss.activity.R;
 import com.yzss.adapter.OrderGroupListViewAdapter;
+import com.yzss.adapter.OrderGroupListViewAdapter.OnItemClickListener;
 import com.yzss.bean.BnOrder;
 import com.yzss.bean.OrderBean;
 import com.yzss.utils.BaseFragment;
@@ -65,6 +66,22 @@ public class FragmentOrder extends BaseFragment {
 		order_list = pullToRefreshListView.getRefreshableView();
 		mAdapter = new OrderGroupListViewAdapter(getActivity(), data);
 		order_list.setAdapter(mAdapter);
+		mAdapter.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onReceive(int position) {
+				// TODO Auto-generated method stub
+				operation(position, UrlConfig.getOrderReceive(uid,
+						data.get(position).getSn()));
+			}
+
+			@Override
+			public void onDelete(int position) {
+				// TODO Auto-generated method stub
+				operation(position, UrlConfig.getOrderDelete(uid,
+						data.get(position).getSn()));
+			}
+		});
 		loadData();
 	}
 
@@ -84,4 +101,19 @@ public class FragmentOrder extends BaseFragment {
 					}
 				});
 	}
+
+	private void operation(final int position, String url) {
+		showProgressDialog(getActivity(), "");
+		HttpUtil.get(url, new jsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONObject arg0) {
+				// TODO Auto-generated method stub
+				if (Utils.requestOk(arg0)) {
+					data.remove(position);
+					mAdapter.notifyDataSetChanged();
+				}
+			}
+		});
+	}
+
 }

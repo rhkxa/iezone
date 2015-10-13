@@ -12,7 +12,7 @@ import com.yzss.activity.R;
 
 public class HomeOptionsGridViewAdapter extends BaseAdapter {
 	private Context context;
-	private String[] text = { "买一赠一", "食尚鲜果", "鲜到鲜得", "订单" };
+	private String[] text = { "买赠专区", "食尚鲜果", "鲜到先得", "我的订单" };
 	private Integer[] icon = { R.drawable.yz_home_option1,
 			R.drawable.yz_home_option2, R.drawable.yz_home_option3,
 			R.drawable.yz_home_option4 };

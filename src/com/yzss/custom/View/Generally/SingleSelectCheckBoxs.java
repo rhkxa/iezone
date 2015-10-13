@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 public class SingleSelectCheckBoxs extends LinearLayout {
 	@SuppressLint("UseSparseArrays")
 	private Map<Integer, String> mData = new HashMap<Integer, String>();
-	private int mSelectPosition = -1;
+	private int mSelectPosition = 0;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
 	private int mSrcW;
@@ -90,6 +90,7 @@ public class SingleSelectCheckBoxs extends LinearLayout {
 		}
 		// 开始添加条目
 		addItem();
+		notifyAllItemView(0);
 
 	}
 
@@ -147,10 +148,10 @@ public class SingleSelectCheckBoxs extends LinearLayout {
 	private void resetItemWidth(View itemView, int itemW) {
 		LinearLayout itemViewRoot = (LinearLayout) itemView
 				.findViewById(R.id.item_single_select_root);
-//		LinearLayout.LayoutParams lp = new LayoutParams(itemW,
-//				LayoutParams.MATCH_PARENT);
-		LinearLayout.LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.MATCH_PARENT);
+		// LinearLayout.LayoutParams lp = new LayoutParams(itemW,
+		// LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams lp = new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 		itemViewRoot.setLayoutParams(lp);
 	}
 
@@ -185,8 +186,10 @@ public class SingleSelectCheckBoxs extends LinearLayout {
 		for (View itemView : mItemViews) {
 			CheckBox chk = (CheckBox) itemView
 					.findViewById(R.id.single_select_chk);
-			if ((Integer) chk.getTag() != mSelectPosition) {
+			if ((Integer) chk.getTag() != selectPosition) {
 				chk.setChecked(false);
+			} else {
+				chk.setChecked(true);
 			}
 		}
 	}
@@ -200,10 +203,11 @@ public class SingleSelectCheckBoxs extends LinearLayout {
 			CheckBox chk = (CheckBox) v;
 			if (chk.isChecked()) {
 				mSelectPosition = (Integer) chk.getTag();
-				notifyAllItemView(mSelectPosition);
+
 			} else {
-				mSelectPosition = -1;
+				mSelectPosition = 0;
 			}
+			notifyAllItemView(mSelectPosition);
 			mOnSelectListener.onSelect(mSelectPosition);
 		}
 	}

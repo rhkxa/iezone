@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/item_home_options_gridview_imageview"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="8dp"
         android:src="@drawable/ic_launcher" />
 

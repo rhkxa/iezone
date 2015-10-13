@@ -104,6 +104,14 @@ public class UrlConfig {
 	public static final String getOrderList(String uid, String status) {
 		return SERVER + "order/list" + "?uid=" + uid + "&status=" + status;
 	}
+	// 订单删除
+	public static final String getOrderDelete(String uid, String sn) {
+		return SERVER + "order/delete" + "?uid=" + uid + "&sn=" + sn;
+	}
+	// 订单收货
+	public static final String getOrderReceive(String uid, String sn) {
+		return SERVER + "order/receive" + "?uid=" + uid + "&sn=" + sn;
+	}
 
 	// 订单详情
 	public static final String queryOrder() {

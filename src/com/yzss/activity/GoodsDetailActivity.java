@@ -372,9 +372,9 @@ public class GoodsDetailActivity extends BaseActivity {
 		goods_details_old_price.getPaint()
 				.setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-		goods_details_old_price.setText("市场价￥" + data.getMktprice());
-		goods_details_income.setText(data.getAgent_income());
-		goods_details_new_price.setText("￥" + data.getPrice());
+		goods_details_old_price.setText("市场价￥" + data.getProducts().get(0).getMktprice());
+		goods_details_income.setText(data.getProducts().get(0).getAgent_income());
+		goods_details_new_price.setText("￥" + data.getProducts().get(0).getPrice());
 		goods_details_title.setText(data.getName());
 		goods_detail_webview.loadData(data.getIntro(),
 				"text/html; charset=UTF-8", "UTF-8");

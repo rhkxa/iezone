@@ -5,15 +5,19 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yzss.activity.R;
+import com.yzss.adapter.ShoppingListViewAdapter.OnItemClickListener;
 import com.yzss.bean.BnOrder;
+import com.yzss.bean.BnShopping;
 import com.yzss.custom.View.Generally.FancyButton;
 
 public class OrderGroupListViewAdapter extends BaseAdapter {
@@ -45,7 +49,7 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int arg0, View arg1, ViewGroup arg2) {
+	public View getView(final int arg0, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
 		final ViewHolder vh;
 		if (arg1 == null) {
@@ -86,6 +90,22 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 			vh.item_order_group_ok.setVisibility(View.GONE);
 			vh.item_order_group_del.setVisibility(View.VISIBLE);
 		}
+		vh.item_order_group_ok.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				// TODO Auto-generated method stub
+				mOnItemClickListener.onReceive(arg0);
+			}
+		});
+		vh.item_order_group_del.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View view) {
+				// TODO Auto-generated method stub
+				mOnItemClickListener.onDelete(arg0);
+			}
+		});
 
 		// "order_status": 1, 订单状态0未确认,1确认,2已取消,3无效,4退货 
 		// "shipping_status": 0, 商品配送情况;0未发货,1已发货,2已收货,3没有4退货
@@ -123,5 +143,16 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 		TextView order_state;
 
 	}
+	private OnItemClickListener mOnItemClickListener;
+
+	public void setOnItemClickListener(OnItemClickListener l) {
+		mOnItemClickListener = l;
+	}
+	public interface OnItemClickListener {
+		public void onDelete(int position);
+
+		public void onReceive(int position);
+	}
+
 
 }
