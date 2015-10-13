@@ -13,9 +13,6 @@ public class InitOrderBean {
 	private double bill_amount;
 	private double freight;
 	
-	
-	
-	
 	public Bnfare getShipping() {
 		return shipping;
 	}
