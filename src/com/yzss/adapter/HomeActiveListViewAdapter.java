@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yzss.activity.R;
 import com.yzss.bean.BnHActive;
-import com.yzss.utils.LogUtils;
 import com.yzss.utils.Utils;
 
 public class HomeActiveListViewAdapter extends BaseAdapter {

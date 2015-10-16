@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -34,7 +33,7 @@ public class GoodImageFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.widget_image_org, null);
-		ImageView imageView = (ImageView) view.findViewById(R.id.image_view);
+		ImageView imageView = (ImageView) view.findViewById(R.id.good_image_view);
 		ImageLoader.getInstance().displayImage(pager.getImg_url(), imageView);
 		imageView.setOnClickListener(new OnClickListener() {
 

@@ -31,5 +31,6 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 		//return dataList == null ? 0 : dataList.size();
 		return data.size();
 	}
+	
 
 }
