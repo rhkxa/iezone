@@ -29,6 +29,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.widget.Toast;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -138,6 +139,18 @@ public class Utils {
 	}
 
 	/**
+	 * 屏幕的宽
+	 * 
+	 * @return
+	 */
+	public static int getScreenWidth(Context context) {
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		int width = wm.getDefaultDisplay().getWidth();
+		return width;
+	}
+
+	/**
 	 * 屏幕的高
 	 * 
 	 * @return
@@ -204,8 +217,6 @@ public class Utils {
 		intent.putExtra("scaleUpIfNeeded", true);// 去黑边
 		activity.startActivityForResult(intent, flag);
 	}
-
-
 
 	public static void Share(Context context, String Title, String content,
 			String path, String imagePath) {
@@ -301,7 +312,6 @@ public class Utils {
 
 	public static void shareOneWechat(Context context, String Title,
 			String content, String path, String imagePath) {
-
 
 		ShareSDK.initSDK(context);
 		Wechat.ShareParams sp = new Wechat.ShareParams();
@@ -524,7 +534,8 @@ public class Utils {
 		context.startActivity(intent);
 	}
 
-	public static void toPay(Context context, String sn,String title,String money) {
+	public static void toPay(Context context, String sn, String title,
+			String money) {
 		Intent intent = new Intent(context, PayActivity.class);
 		intent.putExtra("sn", sn);
 		intent.putExtra("title", title);
@@ -533,16 +544,15 @@ public class Utils {
 	}
 
 	public static void toOrder(Context context, String state) {
-		if(isLogin(context)){
+		if (isLogin(context)) {
 			Intent intent = new Intent(context, OrderActivity.class);
 			intent.putExtra("state", state);
 			context.startActivity(intent);
-		}else{
+		} else {
 			toLogin(context);
 		}
-		
+
 	}
-	
 
 	public static void toAction(Context context, BnAction action) {
 		switch (action.getType()) {
@@ -554,7 +564,7 @@ public class Utils {
 			toWebView(context, action.getPage_url());
 			break;
 		case "goods_list":
-			toGoodsList(context, action.getTarget_id(),"活动");
+			toGoodsList(context, action.getTarget_id(), "活动");
 			break;
 		case "goods_info":
 			toGoodDetail(context, action.getTarget_id());
@@ -595,9 +605,10 @@ public class Utils {
 	public static void setAccount(Context context, String user) {
 		PreferenceUtils.getInstance(context).setValue("account", user);
 	}
+
 	public static String getKeyWords(Context context) {
-		String str = PreferenceUtils.getInstance(context)
-				.getStringValue("keywords");
+		String str = PreferenceUtils.getInstance(context).getStringValue(
+				"keywords");
 		if (StringUtils.isEmpty(str)) {
 			return null;
 		} else {
@@ -608,12 +619,13 @@ public class Utils {
 	public static void setKeyWords(Context context, String keywords) {
 		PreferenceUtils.getInstance(context).setValue("keywords", keywords);
 	}
+
 	public static Map<Integer, String> setSingleMap(List<String> list) {
-		Map<Integer, String> data=new HashMap<Integer, String>();
-		int size=list.size();
-		for(int i=0;i<size;i++){
+		Map<Integer, String> data = new HashMap<Integer, String>();
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
 			data.put(i, list.get(i));
-		}		
+		}
 		return data;
 	}
 }

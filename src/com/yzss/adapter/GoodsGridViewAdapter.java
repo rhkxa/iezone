@@ -6,16 +6,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.yzss.activity.GoodsDetailActivity;
 import com.yzss.activity.R;
 import com.yzss.bean.BnGoods;
 import com.yzss.utils.Utils;
-
 
 public class GoodsGridViewAdapter extends BaseAdapter {
 	private Context context;
@@ -49,7 +50,7 @@ public class GoodsGridViewAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		final ViewHolder vh;
 		if (arg1 == null) {
-			
+
 			arg1 = LayoutInflater.from(context).inflate(
 					R.layout.item_goods_grid, null);
 			vh = new ViewHolder(arg1);
@@ -57,12 +58,19 @@ public class GoodsGridViewAdapter extends BaseAdapter {
 		} else {
 			vh = (ViewHolder) arg1.getTag();
 		}
-		ImageLoader.getInstance().displayImage(data.get(arg0).getImg_url(),vh.item_goods_image);
+
+		int screenWidth = Utils.getScreenWidth(context) - 8;
+		LayoutParams lp = vh.item_goods_image.getLayoutParams();
+		lp.width = screenWidth / 2;
+		lp.height = screenWidth / 2;
+		vh.item_goods_image.setLayoutParams(lp);
+		ImageLoader.getInstance().displayImage(data.get(arg0).getImg_url(),
+				vh.item_goods_image);
 		vh.item_goods_introduce.setText(data.get(arg0).getName());
 		vh.item_goods_parameters.setText(data.get(arg0).getSpec());
-		vh.item_goods_price.setText("￥"+data.get(arg0).getPrice()+"元");
+		vh.item_goods_price.setText("￥" + data.get(arg0).getPrice() + "元");
 		vh.item_goods_join.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
@@ -78,13 +86,19 @@ public class GoodsGridViewAdapter extends BaseAdapter {
 		TextView item_goods_parameters;
 		TextView item_goods_price;
 		ImageView item_goods_join;
-		public ViewHolder(View view){
-			item_goods_image=(ImageView) view.findViewById(R.id.item_goods_image);
-			item_goods_introduce=(TextView) view.findViewById(R.id.item_goods_introduce);
-			item_goods_parameters=(TextView) view.findViewById(R.id.item_goods_parameters);
-			item_goods_price=(TextView) view.findViewById(R.id.item_goods_price);
-			item_goods_join=(ImageView) view.findViewById(R.id.item_goods_join);
-					
+
+		public ViewHolder(View view) {
+			item_goods_image = (ImageView) view
+					.findViewById(R.id.item_goods_image);
+			item_goods_introduce = (TextView) view
+					.findViewById(R.id.item_goods_introduce);
+			item_goods_parameters = (TextView) view
+					.findViewById(R.id.item_goods_parameters);
+			item_goods_price = (TextView) view
+					.findViewById(R.id.item_goods_price);
+			item_goods_join = (ImageView) view
+					.findViewById(R.id.item_goods_join);
+
 		}
 
 	}

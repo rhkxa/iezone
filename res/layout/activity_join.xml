@@ -40,7 +40,7 @@
             android:layout_margin="8dp"
             android:background="@color/app_yellow"
             android:gravity="center"
-            android:text="申请正式版分销商"
+            android:text="申请正式版合伙人"
             android:textColor="@color/white"
             android:textSize="@dimen/button" />
 
@@ -51,7 +51,7 @@
             android:layout_margin="8dp"
             android:background="@color/app_blue"
             android:gravity="center"
-            android:text="申请流程介绍"
+            android:text="申请合伙人介绍"
             android:textColor="@color/white"
             android:textSize="@dimen/button" />
 
