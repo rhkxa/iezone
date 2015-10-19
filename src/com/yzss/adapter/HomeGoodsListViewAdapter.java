@@ -81,7 +81,7 @@ public class HomeGoodsListViewAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				Utils.toGoodDetail(context, data.get(arg0).get(3).getGoods_id());
+				Utils.toAction(context, data.get(arg0).get(3).getAction().get(0));
 			}
 		});
 		vh.item_goods_image2.setOnClickListener(new OnClickListener() {
@@ -89,7 +89,7 @@ public class HomeGoodsListViewAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				Utils.toGoodDetail(context, data.get(arg0).get(0).getGoods_id());
+				Utils.toAction(context, data.get(arg0).get(0).getAction().get(0));
 			}
 		});
 		vh.item_goods_image3.setOnClickListener(new OnClickListener() {
@@ -97,7 +97,7 @@ public class HomeGoodsListViewAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				Utils.toGoodDetail(context, data.get(arg0).get(1).getGoods_id());
+				Utils.toAction(context, data.get(arg0).get(1).getAction().get(0));
 			}
 		});
 		vh.item_goods_image4.setOnClickListener(new OnClickListener() {
@@ -105,7 +105,7 @@ public class HomeGoodsListViewAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
-				Utils.toGoodDetail(context, data.get(arg0).get(2).getGoods_id());
+				Utils.toAction(context, data.get(arg0).get(2).getAction().get(0));
 			}
 		});
 		return arg1;

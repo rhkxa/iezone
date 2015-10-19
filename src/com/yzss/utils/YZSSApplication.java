@@ -51,7 +51,7 @@ public class YZSSApplication extends FrontiaApplication {
 
 		super.onCreate();
 		// initLocation(getApplicationContext());
-		// initPush(getApplicationContext());
+		 initPush(getApplicationContext());
 		initImageLoader(getApplicationContext());
 		CrashHandler crashHandler = CrashHandler.getInstance();
 		crashHandler.init(getApplicationContext());
@@ -69,13 +69,13 @@ public class YZSSApplication extends FrontiaApplication {
 	}
 
 	private void initPush(Context context) {
-		if (PreferenceUtils.getInstance(context).getBooleanValue("push")) {
+		//if (PreferenceUtils.getInstance(context).getBooleanValue("push")) {
 			PushManager.startWork(getApplicationContext(),
 					PushConstants.LOGIN_TYPE_API_KEY,
 					PushUtils.getMetaValue(context, "api_key"));
-		} else {
-			PushManager.stopWork(context);
-		}
+//		} else {
+//			PushManager.stopWork(context);
+//		}
 	}
 
 	private void initLocation(Context context) {

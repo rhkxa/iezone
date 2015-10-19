@@ -1,9 +1,14 @@
 package com.yzss.bean;
 
+import java.util.List;
+
 public class BnHGoods {
 	private String img_url;
 	private String title;
 	private String goods_id;
+	private List<BnAction> action;
+	
+	
 
 	public String getGoods_id() {
 		return goods_id;
@@ -23,6 +28,12 @@ public class BnHGoods {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public List<BnAction> getAction() {
+		return action;
+	}
+	public void setAction(List<BnAction> action) {
+		this.action = action;
 	}
 
 
