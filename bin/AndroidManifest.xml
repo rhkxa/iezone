@@ -212,6 +212,9 @@
                 <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
         </service>
+        <service
+            android:name="com.baidu.android.pushservice.CommandService"
+            android:exported="true" />
         <!-- push结束 -->
         <!-- 定位 -->
         <service
@@ -239,7 +242,6 @@
         <meta-data
             android:name="api_key"
             android:value="WIHWmsQau3GlEPKEurIpeCU6" />
-         
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="2OGG61pE4ppmNh81hL68DrAI" />

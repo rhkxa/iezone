@@ -117,7 +117,7 @@ public class JoinActivity extends BaseActivity {
 
 	private void join() {
 		new AlertDialog.Builder(JoinActivity.this)
-				.setMessage("申请正式版分销商需要电话联系平台，确认详细信息！")
+				.setMessage("申请正式版合伙人需要电话联系平台，确认详细信息！")
 
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 

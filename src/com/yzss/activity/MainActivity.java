@@ -11,12 +11,15 @@ import android.view.View.OnClickListener;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.yzss.custom.View.Generally.BadgeView;
 import com.yzss.custom.View.Generally.CircleImageView;
 import com.yzss.fragment.FragmentGift;
 import com.yzss.fragment.FragmentHome;
 import com.yzss.fragment.FragmentMenu;
 import com.yzss.fragment.FragmentMyself;
+import com.yzss.push.PushUtils;
 import com.yzss.utils.BaseActivity;
 import com.yzss.utils.PreferenceUtils;
 import com.yzss.utils.StringUtils;
@@ -43,27 +46,38 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		init();
+		initPush();
+	}
+
+	private void initPush() {
+		// if (PreferenceUtils.getInstance(context).getBooleanValue("push")) {
+		PushManager.startWork(getApplicationContext(),
+				PushConstants.LOGIN_TYPE_API_KEY,
+				PushUtils.getMetaValue(MainActivity.this, "api_key"));
+		// } else {
+		// PushManager.stopWork(context);
+		// }
 	}
 
 	private void init() {
 		// TODO Auto-generated method stub
 		main_shopcar = (CircleImageView) findViewById(R.id.main_shopcar);
 		// *** default badge ***
-		 badge = new BadgeView(this, main_shopcar);
+		badge = new BadgeView(this, main_shopcar);
 
 		main_shopcar.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(Utils.isLogin(MainActivity.this)){
+				if (Utils.isLogin(MainActivity.this)) {
 					Intent intent = new Intent();
 					intent.setClass(MainActivity.this, ShoppingActivity.class);
 					startActivity(intent);
-				}else{
+				} else {
 					Utils.toLogin(MainActivity.this);
 				}
-				
+
 			}
 		});
 
@@ -93,11 +107,11 @@ public class MainActivity extends BaseActivity {
 					break;
 				case R.id.main_myself:
 					switchContent(mContent, my);
-//					if (Utils.isLogin(MainActivity.this)) {
-//						switchContent(mContent, my);
-//					} else {
-//						Utils.toLogin(MainActivity.this);
-//					}
+					// if (Utils.isLogin(MainActivity.this)) {
+					// switchContent(mContent, my);
+					// } else {
+					// Utils.toLogin(MainActivity.this);
+					// }
 					break;
 				}
 			}
@@ -118,21 +132,23 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-	String	count=PreferenceUtils.getInstance(MainActivity.this).getStringValue("count");
-		if(!StringUtils.isEmpty(count)){
+		String count = PreferenceUtils.getInstance(MainActivity.this)
+				.getStringValue("count");
+		if (!StringUtils.isEmpty(count)) {
 			badge.setText(count);
 			badge.show();
 		}
-	
+
 		super.onResume();
 	}
 
 	// 双击退出
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event){
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if ((System.currentTimeMillis() - mExitTime) > 2000) {
 				Utils.showSuperCardToast(MainActivity.this, getResources()

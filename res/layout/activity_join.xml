@@ -28,7 +28,7 @@
             android:layout_margin="8dp"
             android:background="@drawable/selector_button_blue"
             android:gravity="center"
-            android:text="申请体验版分销商"
+            android:text="申请体验版合伙人"
             android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="@dimen/button" />

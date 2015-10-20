@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.baidu.frontia.FrontiaApplication;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -16,6 +15,7 @@ import com.yzss.activity.R;
 import com.yzss.push.PushUtils;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -26,7 +26,7 @@ import android.graphics.Bitmap;
  * @date 2013-11-25 下午2:06:20
  * 
  */
-public class YZSSApplication extends FrontiaApplication {
+public class YZSSApplication extends Application {
 
 	private List<Activity> activities = new ArrayList<Activity>();
 	private static YZSSApplication instance;
@@ -51,7 +51,6 @@ public class YZSSApplication extends FrontiaApplication {
 
 		super.onCreate();
 		// initLocation(getApplicationContext());
-		 initPush(getApplicationContext());
 		initImageLoader(getApplicationContext());
 		CrashHandler crashHandler = CrashHandler.getInstance();
 		crashHandler.init(getApplicationContext());
@@ -68,15 +67,7 @@ public class YZSSApplication extends FrontiaApplication {
 		System.exit(0);
 	}
 
-	private void initPush(Context context) {
-		//if (PreferenceUtils.getInstance(context).getBooleanValue("push")) {
-			PushManager.startWork(getApplicationContext(),
-					PushConstants.LOGIN_TYPE_API_KEY,
-					PushUtils.getMetaValue(context, "api_key"));
-//		} else {
-//			PushManager.stopWork(context);
-//		}
-	}
+	
 
 	private void initLocation(Context context) {
 
