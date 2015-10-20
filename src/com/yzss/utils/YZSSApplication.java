@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
+
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.yzss.activity.R;
-import com.yzss.push.PushUtils;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -68,10 +65,6 @@ public class YZSSApplication extends Application {
 	}
 
 	
-
-	private void initLocation(Context context) {
-
-	}
 
 	public static void initImageLoader(Context context) {
 		// This configuration tuning is custom. You can tune every option, you
