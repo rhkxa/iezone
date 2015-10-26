@@ -3,6 +3,8 @@ package com.yzss.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +47,7 @@ public class TextDialog extends Dialog {
 		btn_ok = (Button) findViewById(R.id.btn_ok);
 		comment = (EditText) findViewById(R.id.price_et);
 		if (tag.equals("提现")) {
-			comment.setHint("请输入您要提现的金额，以10元为单位");
+			comment.setHint("请输入您要提现的金额，以100元为单位");
 		} else {
 			comment.setHint("请输入您要转入的金额，以元为单位");
 		}
@@ -57,15 +59,38 @@ public class TextDialog extends Dialog {
 				if (StringUtils.isEmpty(comment.getText().toString())) {
 					Utils.ToastMessage(context, "请输入");
 					return;
-				}
+				}				
+				mOnClickListener.onItemClick(money);
+				dismiss();
+			}
+		});
+		comment.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				// TODO Auto-generated method stub
 				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+					int arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				if (StringUtils.isEmpty(comment.getText().toString())) {
+					return;
+				}				
 				if (tag.equals("提现")) {
-					money = Integer.valueOf(comment.getText().toString()) * 10;
+					money = Integer.valueOf(comment.getText().toString()) * 100;
 				} else {
 					money = Integer.valueOf(comment.getText().toString());
 				}
-				mOnClickListener.onItemClick(money);
-				dismiss();
+				result.setText("您本次的金额为"+money+"元");
 			}
 		});
 	}

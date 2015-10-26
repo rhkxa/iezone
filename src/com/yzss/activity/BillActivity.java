@@ -125,16 +125,17 @@ public class BillActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				textDialog = new TextDialog(BillActivity.this, "转入");
-				textDialog.setOnClickListener(new TextDialog.OnClickListener() {
-
-					@Override
-					public void onItemClick(int money) {
-						// TODO Auto-generated method stub
-						getAgent(UrlConfig.getAgentIn(uid, money), "提现");
-					}
-				});
-				textDialog.show();
+//				textDialog = new TextDialog(BillActivity.this, "转入");
+//				textDialog.setOnClickListener(new TextDialog.OnClickListener() {
+//
+//					@Override
+//					public void onItemClick(int money) {
+//						// TODO Auto-generated method stub
+//						getAgent(UrlConfig.getAgentIn(uid, money), "提现");
+//					}
+//				});
+//				textDialog.show();
+				Utils.ToastMessage(BillActivity.this, "敬请期待");
 			}
 		});
 

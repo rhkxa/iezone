@@ -86,7 +86,15 @@ public class FragmentMyself extends BaseFragment {
 		my_collet.setOnClickListener(click);
 
 		my_wallet = (PengButton) view.findViewById(R.id.my_wallet);
-		my_wallet.setOnClickListener(click);
+		//my_wallet.setOnClickListener(click);
+		my_wallet.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Utils.ToastMessage(getActivity(), "敬请期待");
+			}
+		});
 
 		// linear
 		my_center = (LinearLayout) view.findViewById(R.id.my_center);

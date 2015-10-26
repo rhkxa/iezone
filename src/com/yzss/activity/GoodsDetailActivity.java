@@ -345,6 +345,7 @@ public class GoodsDetailActivity extends BaseActivity {
 		} else {
 			Utils.showSuperCardToast(GoodsDetailActivity.this, getResources()
 					.getString(R.string.network_not_connected));
+			finish();
 		}
 	}
 

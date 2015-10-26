@@ -202,7 +202,7 @@ public class PayActivity extends BaseActivity {
 					// getPrepayId.execute();
 				}
 				if (pay3_check.isChecked()) {
-					Utils.ToastMessage(context, "马上开启，尽请期待");
+					Utils.ToastMessage(context, "马上开启，敬请期待");
 				}
 
 			}
