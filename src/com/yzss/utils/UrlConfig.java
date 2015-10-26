@@ -1,7 +1,7 @@
 package com.yzss.utils;
 
 public class UrlConfig {
-	//private static final String SERVER = "http://114.215.131.140/shop-api/";
+	// private static final String SERVER = "http://114.215.131.140/shop-api/";
 	private static final String SERVER = "http://www.iezhong.com/shop-api/";
 
 	// 登录
@@ -104,10 +104,12 @@ public class UrlConfig {
 	public static final String getOrderList(String uid, String status) {
 		return SERVER + "order/list" + "?uid=" + uid + "&status=" + status;
 	}
+
 	// 订单删除
 	public static final String getOrderDelete(String uid, String sn) {
 		return SERVER + "order/delete" + "?uid=" + uid + "&sn=" + sn;
 	}
+
 	// 订单收货
 	public static final String getOrderReceive(String uid, String sn) {
 		return SERVER + "order/receive" + "?uid=" + uid + "&sn=" + sn;
@@ -318,7 +320,7 @@ public class UrlConfig {
 	}
 
 	// 提现
-	public static final String getAgentOut(String  uid, int amount) {
+	public static final String getAgentOut(String uid, int amount) {
 		return SERVER + "agent/withdraw" + "?uid=" + uid + "&amount=" + amount;
 	}
 
@@ -327,9 +329,14 @@ public class UrlConfig {
 		return SERVER + "agent/to_balance" + "?uid=" + uid + "&amount="
 				+ amount;
 	}
+
 	public static final String getWx(String uid, String order_sn) {
 		return SERVER + "order/weixin" + "?uid=" + uid + "&order_sn="
 				+ order_sn;
+	}
+
+	public static final String getHdPay(String uid, String sn) {
+		return SERVER + "order/updatePay" + "?uid=" + uid + "&sn=" + sn;
 	}
 
 }

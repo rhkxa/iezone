@@ -173,14 +173,15 @@
                             android:id="@+id/pay3_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="零钱支付" />
+                            android:text="货到付款" />
 
                         <TextView
                             android:id="@+id/pay3_content"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="零钱余额：56元"
-                            android:textSize="@dimen/caption" />
+                            android:textSize="@dimen/caption"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <CheckBox

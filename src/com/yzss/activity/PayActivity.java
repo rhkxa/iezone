@@ -49,6 +49,7 @@ import com.yzss.utils.UrlConfig;
 import com.yzss.utils.Utils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 
@@ -202,7 +203,8 @@ public class PayActivity extends BaseActivity {
 					// getPrepayId.execute();
 				}
 				if (pay3_check.isChecked()) {
-					Utils.ToastMessage(context, "马上开启，敬请期待");
+					toHdPay();
+					// Utils.ToastMessage(context, "马上开启，敬请期待");
 				}
 
 			}
@@ -641,6 +643,20 @@ public class PayActivity extends BaseActivity {
 						BnWx bnWx = JSON.parseObject(Utils.getResult(arg0),
 								BnWx.class);
 						genPayReq(bnWx);
+						super.onSuccess(arg0);
+					}
+				});
+	}
+
+	private void toHdPay() {
+		HttpUtil.get(UrlConfig.getHdPay(Utils.getUid(PayActivity.this), sn),
+				new jsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONObject arg0) {
+						// TODO Auto-generated method stub
+						if (Utils.requestOk(arg0)) {
+							toFinishPay();
+						}
 						super.onSuccess(arg0);
 					}
 				});
