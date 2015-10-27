@@ -203,8 +203,8 @@ public class PayActivity extends BaseActivity {
 					// getPrepayId.execute();
 				}
 				if (pay3_check.isChecked()) {
-					toHdPay();
-					// Utils.ToastMessage(context, "马上开启，敬请期待");
+					//toHdPay();
+					 Utils.ToastMessage(context, "马上开启，敬请期待");
 				}
 
 			}
@@ -384,6 +384,7 @@ public class PayActivity extends BaseActivity {
 	private void toFinishPay() {
 		Intent intent = new Intent(context, FinishPayActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	/**

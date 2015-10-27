@@ -290,7 +290,8 @@ public class StringUtils {
 	}
 
 	/**
-	 *  判断是否为手机号
+	 * 判断是否为手机号
+	 * 
 	 * @param inputText
 	 * @return
 	 */
@@ -300,14 +301,48 @@ public class StringUtils {
 		Matcher m = p.matcher(inputText);
 		return m.matches();
 	}
+
 	/**
 	 * 将毫秒数转化成年-月-日的格式
+	 * 
 	 * @param time
 	 * @return
 	 */
-	public static String toDate(long time){
+	public static String toDate(long time) {
 		Date d = new Date(time);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(d);
+	}
+
+	/**
+	 * 判断当前日期是星期几
+	 */
+	public static int dayForWeek(String pTime) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(format.parse(pTime));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int dayForWeek = 0;
+		if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+			dayForWeek = 7;
+		} else {
+			dayForWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+		}
+		return dayForWeek;
+	}
+
+	public static int dayForWeek() {
+		Calendar calendar = Calendar.getInstance();
+		int day = calendar.get(Calendar.DAY_OF_WEEK);
+		if (day == 1) {
+			day = 7;
+		} else {
+			day = day - 1;
+		}
+		return day;
 	}
 }

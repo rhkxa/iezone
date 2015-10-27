@@ -114,6 +114,10 @@ public class BillActivity extends BaseActivity {
 					@Override
 					public void onItemClick(int money) {
 						// TODO Auto-generated method stub
+						if(StringUtils.dayForWeek()!=1){
+							Utils.ToastMessage(BillActivity.this, "亲，提现时间为每周一哦！");
+							return;
+						}
 						getAgent(UrlConfig.getAgentOut(uid, money), "");
 					}
 				});
@@ -125,16 +129,17 @@ public class BillActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-//				textDialog = new TextDialog(BillActivity.this, "转入");
-//				textDialog.setOnClickListener(new TextDialog.OnClickListener() {
-//
-//					@Override
-//					public void onItemClick(int money) {
-//						// TODO Auto-generated method stub
-//						getAgent(UrlConfig.getAgentIn(uid, money), "提现");
-//					}
-//				});
-//				textDialog.show();
+				// textDialog = new TextDialog(BillActivity.this, "转入");
+				// textDialog.setOnClickListener(new
+				// TextDialog.OnClickListener() {
+				//
+				// @Override
+				// public void onItemClick(int money) {
+				// // TODO Auto-generated method stub
+				// getAgent(UrlConfig.getAgentIn(uid, money), "提现");
+				// }
+				// });
+				// textDialog.show();
 				Utils.ToastMessage(BillActivity.this, "敬请期待");
 			}
 		});
@@ -207,8 +212,10 @@ public class BillActivity extends BaseActivity {
 			public void onSuccess(JSONObject arg0) {
 				// TODO Auto-generated method stub
 				if (Utils.requestOk(arg0)) {
-					Utils.ToastMessage(BillActivity.this, tag
-							+ "申请成功，客服会24小时之内联系您");
+					// Utils.ToastMessage(BillActivity.this, tag
+					// + "申请成功，客服会24小时之内联系您");
+					Utils.ToastMessage(BillActivity.this, getResources()
+							.getString(R.string.agent_information));
 				} else {
 					Utils.ToastMessage(BillActivity.this,
 							Utils.getKey(arg0, "msg"));

@@ -83,6 +83,7 @@ public class TextDialog extends Dialog {
 			public void afterTextChanged(Editable arg0) {
 				// TODO Auto-generated method stub
 				if (StringUtils.isEmpty(comment.getText().toString())) {
+					result.setText("您本次的金额为0元");
 					return;
 				}				
 				if (tag.equals("提现")) {
