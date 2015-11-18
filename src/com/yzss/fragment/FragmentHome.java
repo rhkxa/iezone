@@ -2,6 +2,8 @@ package com.yzss.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,8 +25,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -47,6 +52,7 @@ import com.yzss.custom.View.Indicator.UnderlinePageIndicator;
 import com.yzss.utils.BaseFragment;
 import com.yzss.utils.FileUtils;
 import com.yzss.utils.HttpUtil;
+import com.yzss.utils.StringUtils;
 import com.yzss.utils.UrlConfig;
 import com.yzss.utils.Utils;
 
@@ -85,6 +91,53 @@ public class FragmentHome extends BaseFragment {
 	private BnHome home;
 	private int currentItem;
 	private ScheduledExecutorService scheduledExecutorService;
+	private LinearLayout ll_time;
+	private TextView daysTv;
+	private TextView hoursTv;
+	private TextView minutesTv;
+	private TextView secondsTv;
+
+	protected String currentThreadName = "";
+	private boolean isRun = true;
+	private Handler timeHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 1) {
+				Log.d("debug", "handleMessage方法所在的线程："
+						+ Thread.currentThread().getName());
+				if (StringUtils.isEmpty(currentThreadName)) {
+					currentThreadName = msg.obj.toString();
+				} else {
+					if (currentThreadName.equals(msg.obj.toString())) {
+						computeTime();
+						daysTv.setText(mDay + "");
+						hoursTv.setText(mHour + "");
+						minutesTv.setText(mMin + "");
+						secondsTv.setText(mSecond + "");
+						if (mDay == 0 && mHour == 0 && mMin == 0
+								&& mSecond == 0) {
+							// 结束Timer计时器
+							daysTv.setText("--");
+							hoursTv.setText("--");
+							minutesTv.setText("--");
+							secondsTv.setText("--");
+							isRun = false;
+							ll_time.setVisibility(View.GONE);
+						}
+					} else {
+						Log.d("debug", "其他线程："
+								+ Thread.currentThread().getName());
+					}
+				}
+			}
+		}
+	};
+	private static long mDay = 00;
+	private static long mHour = 00;
+	private static long mMin = 00;
+	private static long mSecond = 00;// 天 ,小时,分钟,秒
 
 	public static FragmentHome newInstance() {
 		FragmentHome fragment = new FragmentHome();
@@ -94,7 +147,6 @@ public class FragmentHome extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.fragment_home, null);
 		init();
 		loadData();
@@ -102,14 +154,16 @@ public class FragmentHome extends BaseFragment {
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
-
+		ll_time = (LinearLayout) view.findViewById(R.id.ll_time);
+		daysTv = (TextView) view.findViewById(R.id.days_tv);
+		hoursTv = (TextView) view.findViewById(R.id.hours_tv);
+		minutesTv = (TextView) view.findViewById(R.id.minutes_tv);
+		secondsTv = (TextView) view.findViewById(R.id.seconds_tv);
 		main_head_search = (ImageView) view.findViewById(R.id.main_head_search);
 		main_head_search.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(), SearchActivity.class);
 				startActivity(intent);
 			}
@@ -133,12 +187,11 @@ public class FragmentHome extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				if (arg2 == 3) {
 					Utils.toOrder(getActivity(), "");
 				} else {
-					Utils.ToastMessage(getActivity(), "敬请期待……");
-					// Utils.toArea(getActivity(), arg2 + 1);
+					// Utils.ToastMessage(getActivity(), "敬请期待……");
+					Utils.toArea(getActivity(), arg2 + 1);
 				}
 			}
 		});
@@ -151,7 +204,6 @@ public class FragmentHome extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				Utils.toAction(getActivity(), game.get(arg2).getAction().get(0));
 			}
 		});
@@ -177,7 +229,6 @@ public class FragmentHome extends BaseFragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				Utils.toGoodsList(getActivity(), cate.get(arg2).getCate_id(),
 						cate.get(arg2).getTitle());
 			}
@@ -217,7 +268,7 @@ public class FragmentHome extends BaseFragment {
 
 			@Override
 			public void onSuccess(JSONObject arg1) {
-				// TODO Auto-generated method stub
+
 				home = JSON.parseObject(Utils.getResult(arg1), BnHome.class);
 				FileUtils.write(getActivity(), "firstPageCache",
 						Utils.getResult(arg1));
@@ -227,7 +278,6 @@ public class FragmentHome extends BaseFragment {
 
 			@Override
 			public void onFinish() {
-				// TODO Auto-generated method stub
 				mPullRefreshScrollView.onRefreshComplete();
 				super.onFinish();
 			}
@@ -240,6 +290,32 @@ public class FragmentHome extends BaseFragment {
 		slider.clear();
 		slider.addAll(home.getSlider());
 		active.clear();
+		isRun = true;
+		currentThreadName = "";
+		if (home.getActivity().size() > 0) {
+			String remain_time = home.getActivity().get(0).getRemain_time();
+
+			if (StringUtils.isNum(remain_time)) {
+				long remain_time_num = Long.parseLong(remain_time) * 1000;
+
+				if (remain_time_num > 0) {
+					ll_time.setVisibility(View.VISIBLE);
+					formatDuring(remain_time_num - 1 * 1000);
+					daysTv.setText(mDay + "");
+					hoursTv.setText(mHour + "");
+					minutesTv.setText(mMin + "");
+					secondsTv.setText(mSecond + "");
+					startRun();
+				} else {
+					ll_time.setVisibility(View.GONE);
+				}
+			} else {
+				ll_time.setVisibility(View.GONE);
+			}
+		} else {
+			ll_time.setVisibility(View.GONE);
+		}
+
 		active.addAll(home.getActivity());
 		game.clear();
 		game.addAll(home.getGame());
@@ -254,11 +330,81 @@ public class FragmentHome extends BaseFragment {
 		goodsListViewAdapter.notifyDataSetChanged();
 	}
 
+	/**
+	 * @param 要转换的毫秒数
+	 * @return 该毫秒数转换为 * days * hours * minutes * seconds 后的格式
+	 */
+	public static void formatDuring(long mss) {
+		int DAY_HOUR = 24;
+		int HOUR_MIN = 60;
+		int MIN_SECOND = 60;
+		int SECOND_MSS = 1000;
+		long days = mss / (SECOND_MSS * HOUR_MIN * MIN_SECOND * DAY_HOUR);
+		long hours = (mss % (SECOND_MSS * HOUR_MIN * MIN_SECOND * DAY_HOUR))
+				/ (SECOND_MSS * HOUR_MIN * MIN_SECOND);
+		long minutes = (mss % (SECOND_MSS * HOUR_MIN * MIN_SECOND))
+				/ (SECOND_MSS * MIN_SECOND);
+		long seconds = (mss % (SECOND_MSS * MIN_SECOND)) / SECOND_MSS;
+		mDay = days;
+		mHour = hours;
+		mMin = minutes;
+		mSecond = seconds;// 天 ,小时,分钟,秒
+		// return days + " days " + hours + " hours " + minutes + " minutes "
+		// + seconds + " seconds ";
+		System.out.println("===============+" + days + " days " + hours
+				+ " hours " + minutes + " minutes " + seconds + " seconds ");
+	}
+
+	/**
+	 * 开启倒计时
+	 */
+	private void startRun() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (isRun) {
+					try {
+						Log.d("debug", "startRun方法所在的线程："
+								+ Thread.currentThread().getName());
+						Thread.sleep(1000); // sleep 1000ms
+						Message message = Message.obtain();
+						message.what = 1;
+						message.obj = "FragmentHome"
+								+ Thread.currentThread().getName();
+						timeHandler.sendMessage(message);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+	}
+
+	/**
+	 * 倒计时计算
+	 */
+	private void computeTime() {
+		mSecond--;
+		if (mSecond < 0) {
+			mMin--;
+			mSecond = 59;
+			if (mMin < 0) {
+				mMin = 59;
+				mHour--;
+				if (mHour < 0) {
+					// 倒计时结束
+					mHour = 23;
+					mDay--;
+				}
+			}
+		}
+	}
+
 	private class SlideShowTask implements Runnable {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 
 			currentItem = (currentItem + 1) % slider.size();
 			handler.obtainMessage().sendToTarget();
@@ -284,9 +430,24 @@ public class FragmentHome extends BaseFragment {
 
 	@Override
 	public void onStop() {
-		// TODO Auto-generated method stub
 		scheduledExecutorService.shutdown();
 		super.onStop();
 	}
+
+	Handler activehandler = new Handler();
+	int recLen = 0;
+	Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			recLen++;
+			// txtView.setText("" + recLen);
+			if (recLen > 1000) {
+				activehandler.postDelayed(this, 1000);
+			} else {
+				activehandler.removeCallbacks(runnable);
+			}
+
+		}
+	};
 
 }

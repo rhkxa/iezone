@@ -218,8 +218,10 @@ public class Utils {
 		activity.startActivityForResult(intent, flag);
 	}
 
+	// public static void Share(Context context, String Title, String content,
+	// String path, String imagePath) {
 	public static void Share(Context context, String Title, String content,
-			String path, String imagePath) {
+			String path, String imageUrl) {
 		ShareSDK.initSDK(context);
 		OnekeyShare oks = new OnekeyShare();
 		// 关闭sso授权
@@ -234,7 +236,8 @@ public class Utils {
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
 		// oks.setImagePath("/storage/emulated/0/picture/default_.jpg");//
 		// 确保SDcard下面存在此张图片
-		oks.setImagePath(imagePath);// 确保SDcard下面存在此张图片
+		// oks.setImagePath(imagePath);// 确保SDcard下面存在此张图片
+		oks.setImageUrl(imageUrl);
 
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
 		oks.setTitleUrl(path);
@@ -555,24 +558,37 @@ public class Utils {
 	}
 
 	public static void toAction(Context context, BnAction action) {
-		switch (action.getType()) {
-		case "out_link":
+		// switch (action.getType()) {
+		// case "out_link":
+		// toExploer(context, action.getPage_url());
+		// break;
+		//
+		// case "in_link":
+		// toWebView(context, action.getPage_url());
+		// break;
+		// case "goods_list":
+		// toGoodsList(context, action.getTarget_id(), "活动");
+		// break;
+		// case "goods_info":
+		// toGoodDetail(context, action.getTarget_id());
+		// break;
+		// case "special_area":
+		// break;
+		// case "order_list":
+		// break;
+		// }
+		if ("out_link".equals(action.getType())) {
 			toExploer(context, action.getPage_url());
-			break;
-
-		case "in_link":
+		} else if ("in_link".equals(action.getType())) {
 			toWebView(context, action.getPage_url());
-			break;
-		case "goods_list":
+		} else if ("goods_list".equals(action.getType())) {
 			toGoodsList(context, action.getTarget_id(), "活动");
-			break;
-		case "goods_info":
+		} else if ("goods_info".equals(action.getType())) {
 			toGoodDetail(context, action.getTarget_id());
-			break;
-		case "special_area":
-			break;
-		case "order_list":
-			break;
+		} else if ("special_area".equals(action.getType())) {
+
+		} else if ("order_list".equals(action.getType())) {
+
 		}
 	}
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      <color name="tag_blue">#39d8ff </color>
-      <color name="app_blue">#39d8ff </color>
-    
+
+    <color name="tag_blue">#39d8ff </color>
+    <color name="app_blue">#39d8ff </color>
     <color name="footer_text">#6a6a6a </color>
     <color name="sign_backgroud">#febf10</color>
     <color name="footer_color">#eaeaea</color>
@@ -15,6 +15,7 @@
     <color name="app_text">#4e342e</color>
     <color name="app_textcolor">#6f9c3b</color>
     <color name="app_textcolor3">#858581</color>
+    <color name="xsqg_textcolor">#858585</color>
     <color name="app_backgroud">#f7f7f7</color>
     <color name="actionbarcolor">#00b5c6</color>
     <color name="list_bottom">#f8f8f8</color>
@@ -66,4 +67,5 @@
     <color name="text_color">#ffCC0000</color>
     <color name="text_press_color">#ff00ffff</color>
     <color name="text_default_color">#ffffffff</color>
+
 </resources>

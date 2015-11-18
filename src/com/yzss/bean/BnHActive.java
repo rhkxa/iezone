@@ -1,6 +1,6 @@
 package com.yzss.bean;
 
-public class BnHActive extends BnSlider{
+public class BnHActive extends BnSlider {
 
 	private String remain_time;
 
@@ -11,5 +11,5 @@ public class BnHActive extends BnSlider{
 	public void setRemain_time(String remain_time) {
 		this.remain_time = remain_time;
 	}
-	
+
 }

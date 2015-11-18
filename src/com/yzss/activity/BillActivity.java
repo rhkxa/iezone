@@ -67,7 +67,7 @@ public class BillActivity extends BaseActivity {
 
 		path = Utils.getUser(BillActivity.this).getShare_url();
 		title = getResources().getString(R.string.app_name);
-		sharetext = "下载加入宜众时尚超市，天天享受水果盛宴";
+		sharetext = "下载加入宜众食尚超市，天天享受水果盛宴";
 		headerFragment = (HeaderFragment) this.getSupportFragmentManager()
 				.findFragmentById(R.id.title);
 		headerFragment.setTitleText("我的合伙人");

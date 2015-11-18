@@ -49,8 +49,8 @@ public class ActiveDetailActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Utils.Share(ActiveDetailActivity.this, "数码衣库", "名字",
-						"点击后跳 转的地址 ", "分享的图片地址");
+				// Utils.Share(ActiveDetailActivity.this, "数码衣库", "名字",
+				// "点击后跳 转的地址 ", "分享的图片地址");
 
 			}
 		});

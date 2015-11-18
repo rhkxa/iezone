@@ -345,4 +345,11 @@ public class StringUtils {
 		}
 		return day;
 	}
+
+	public static boolean isNum(String str) {
+
+		Pattern pattern = Pattern.compile("[0-9]*");
+		return pattern.matcher(str).matches();
+
+	}
 }

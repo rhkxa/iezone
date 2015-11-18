@@ -91,7 +91,7 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 			vh.item_order_group_del.setVisibility(View.VISIBLE);
 		}
 		vh.item_order_group_ok.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
@@ -99,7 +99,7 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 			}
 		});
 		vh.item_order_group_del.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View view) {
 				// TODO Auto-generated method stub
@@ -107,21 +107,41 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 			}
 		});
 
-		// "order_status": 1, 订单状态0未确认,1确认,2已取消,3无效,4退货 
+		// "order_status": 1, 订单状态0未确认,1确认,2已取消,3无效,4退货
 		// "shipping_status": 0, 商品配送情况;0未发货,1已发货,2已收货,3没有4退货
 		// "pay_status": 0, 支付状态;0未付款;1付款中;2已付款
 		String oState = "";
-		switch (data.get(arg0).getShipping_status()) {
-		case "0":
+		// switch (data.get(arg0).getShipping_status()) {
+		// case "0":
+		// oState = "商品未发货";
+		// break;
+		// case "1":
+		// oState = "商品已发货";
+		// break;
+		// case "2":
+		// oState = "商品已收货";
+		// break;
+		// case "4":
+		// oState = "商品已退货";
+		// break;
+		// }
+		int status = 0;
+		try {
+			status = Integer.parseInt(data.get(arg0).getShipping_status());
+		} catch (Exception e) {
+			status = -1;
+		}
+		switch (status) {
+		case 0:
 			oState = "商品未发货";
 			break;
-		case "1":
+		case 1:
 			oState = "商品已发货";
 			break;
-		case "2":
+		case 2:
 			oState = "商品已收货";
 			break;
-		case "4":
+		case 4:
 			oState = "商品已退货";
 			break;
 		}
@@ -143,16 +163,17 @@ public class OrderGroupListViewAdapter extends BaseAdapter {
 		TextView order_state;
 
 	}
+
 	private OnItemClickListener mOnItemClickListener;
 
 	public void setOnItemClickListener(OnItemClickListener l) {
 		mOnItemClickListener = l;
 	}
+
 	public interface OnItemClickListener {
 		public void onDelete(int position);
 
 		public void onReceive(int position);
 	}
-
 
 }

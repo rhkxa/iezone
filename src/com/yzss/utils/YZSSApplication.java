@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,6 +25,7 @@ import android.graphics.Bitmap;
 public class YZSSApplication extends Application {
 
 	private List<Activity> activities = new ArrayList<Activity>();
+	private static boolean isCrash = false;
 	private static YZSSApplication instance;
 	// 用于存放倒计时时间
 	public static Map<String, Long> map;
@@ -49,8 +49,11 @@ public class YZSSApplication extends Application {
 		super.onCreate();
 		// initLocation(getApplicationContext());
 		initImageLoader(getApplicationContext());
-		CrashHandler crashHandler = CrashHandler.getInstance();
-		crashHandler.init(getApplicationContext());
+		if (isCrash) {
+			CrashHandler crashHandler = CrashHandler.getInstance();
+			crashHandler.init(getApplicationContext());
+		}
+
 	}
 
 	public void addActivity(Activity activity) {
@@ -63,8 +66,6 @@ public class YZSSApplication extends Application {
 		}
 		System.exit(0);
 	}
-
-	
 
 	public static void initImageLoader(Context context) {
 		// This configuration tuning is custom. You can tune every option, you
@@ -86,7 +87,7 @@ public class YZSSApplication extends Application {
 				.defaultDisplayImageOptions(options)
 				// 10 Mb
 				.tasksProcessingOrder(QueueProcessingType.LIFO)
-				.writeDebugLogs() // Remove for release app
+//				.writeDebugLogs() // Remove for release app
 				.build();
 
 		// Initialize ImageLoader with configuration.

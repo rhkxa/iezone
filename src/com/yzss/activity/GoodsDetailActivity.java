@@ -9,13 +9,15 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,11 +40,12 @@ import com.yzss.custom.View.Indicator.CirclePageIndicator;
 import com.yzss.utils.BaseActivity;
 import com.yzss.utils.HttpUtil;
 import com.yzss.utils.PreferenceUtils;
+import com.yzss.utils.StringUtils;
 import com.yzss.utils.UrlConfig;
 import com.yzss.utils.Utils;
 
 /**
- * 商品详情的界面
+ * 商品详情的界面 加入时间倒计时
  * 
  * @author rhk
  * 
@@ -91,10 +94,61 @@ public class GoodsDetailActivity extends BaseActivity {
 	private LinearLayout incomeLayout;
 	private FrameLayout pager_layout;
 	private String product_id;
+	// 新增--------------------------------------------------------------------
+	private LinearLayout ll_time;
+	private TextView daysTv;
+	private TextView hoursTv;
+	private TextView minutesTv;
+	private TextView secondsTv;
+
+	protected String currentThreadName = "";
+	private boolean isRun = true;
+	private Handler timeHandler_qws = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if (msg.what == 2) {
+				Log.d("debug", "---handleMessage方法所在的线程："
+						+ Thread.currentThread().getName());
+				if (StringUtils.isEmpty(currentThreadName)) {
+					currentThreadName = msg.obj.toString();
+				} else {
+					if (currentThreadName.equals(msg.obj.toString())) {
+						computeTime();
+						daysTv.setText(mDay + "");
+						hoursTv.setText(mHour + "");
+						minutesTv.setText(mMin + "");
+						secondsTv.setText(mSecond + "");
+						if (mDay == 0 && mHour == 0 && mMin == 0
+								&& mSecond == 0) {
+							// 结束Timer计时器
+							daysTv.setText("--");
+							hoursTv.setText("--");
+							minutesTv.setText("--");
+							secondsTv.setText("--");
+							isRun = false;
+							ll_time.setVisibility(View.GONE);
+						}
+					} else {
+						Log.d("debug", "---其他线程："
+								+ Thread.currentThread().getName());
+					}
+				}
+			}
+		}
+	};
+
+	private Thread thread;
+	private static long mDay = 00;
+	private static long mHour = 00;
+	private static long mMin = 00;
+	private static long mSecond = 00;// 天 ,小时,分钟,秒
+
+	// ----------------------------------------------------------------------------
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods_details);
 		init();
@@ -102,7 +156,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	}
 
 	private void init() {
-		// TODO Auto-generated method stub
 		goods_id = getIntent().getStringExtra("goods_id");
 		String is_agent = PreferenceUtils.getInstance(GoodsDetailActivity.this)
 				.getStringValue("is_agent");
@@ -110,6 +163,11 @@ public class GoodsDetailActivity extends BaseActivity {
 		if (!is_agent.equals("1")) {
 			incomeLayout.setVisibility(View.GONE);
 		}
+		ll_time = (LinearLayout) findViewById(R.id.ll_time);
+		daysTv = (TextView) findViewById(R.id.days_tv);
+		hoursTv = (TextView) findViewById(R.id.hours_tv);
+		minutesTv = (TextView) findViewById(R.id.minutes_tv);
+		secondsTv = (TextView) findViewById(R.id.seconds_tv);
 		pager_layout = (FrameLayout) findViewById(R.id.pager_layout);
 		int screenWidth = Utils.getScreenWidth(GoodsDetailActivity.this);
 		LayoutParams lp = pager_layout.getLayoutParams();
@@ -129,7 +187,13 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				// if (thread != null) {
+				// Thread dummy = thread;
+				// thread = null;
+				// dummy.interrupt();
+				// }
+				isRun = false;
+				currentThreadName = "";
 				finish();
 			}
 		});
@@ -137,12 +201,18 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				if (Utils.isLogin(GoodsDetailActivity.this)) {
+
+					// Utils.Share(GoodsDetailActivity.this, "宜众食尚", data
+					// .getName(), Utils.getUser(GoodsDetailActivity.this)
+					// .getShare_url(), ImageLoader.getInstance()
+					// .getDiskCache().get(data.getImg_url()).getPath());
+					// ImageLoader.getInstance().getMemoryCache()
+					// .get(data.getImg_url());
+
 					Utils.Share(GoodsDetailActivity.this, "宜众食尚", data
 							.getName(), Utils.getUser(GoodsDetailActivity.this)
-							.getShare_url(), ImageLoader.getInstance()
-							.getDiskCache().get(data.getImg_url()).getPath());
+							.getShare_url(), data.getImg_url());
 				} else {
 					Utils.toLogin(GoodsDetailActivity.this);
 				}
@@ -153,7 +223,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Utils.toShop(GoodsDetailActivity.this);
 			}
 		});
@@ -162,7 +231,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Utils.joinCollect(GoodsDetailActivity.this, goods_id);
 			}
 		});
@@ -179,7 +247,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(GoodsDetailActivity.this,
 						CommentActivity.class);
 				intent.putExtra("goods_id", goods_id);
@@ -216,7 +283,6 @@ public class GoodsDetailActivity extends BaseActivity {
 		// goods_detail_webview.setWebViewClient(new WebViewClient() {
 		// @Override
 		// public boolean shouldOverrideUrlLoading(WebView view, String url) {
-		// // TODO Auto-generated method stub
 		// view.loadUrl(url);
 		// return super.shouldOverrideUrlLoading(view, url);
 		// }
@@ -225,7 +291,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onSelect(int position) {
-				// TODO Auto-generated method stub
 				if (position >= 0) {
 					refresh(data.getProducts().get(position));
 				}
@@ -237,7 +302,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				if (!Utils.isLogin(GoodsDetailActivity.this)) {
 					Utils.toLogin(GoodsDetailActivity.this);
 				} else {
@@ -259,7 +323,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 
 				int quantity = Integer.parseInt(show_text.getText().toString());
 				Utils.joinShop(GoodsDetailActivity.this, product_id, quantity);
@@ -271,7 +334,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				show_text.setText(String.valueOf(Integer.parseInt(show_text
 						.getText().toString()) + 1));
 			}
@@ -280,7 +342,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				if (Integer.parseInt(show_text.getText().toString()) > 1) {
 					show_text.setText(String.valueOf(Integer.parseInt(show_text
 							.getText().toString()) - 1));
@@ -291,7 +352,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				// commentDialog = new CommentDialog(GoodsDetailActivity.this,
 				// bean.getProduction().getId());
 				// // 显示窗口
@@ -322,7 +382,6 @@ public class GoodsDetailActivity extends BaseActivity {
 			HttpUtil.get(url, new jsonHttpResponseHandler() {
 				@Override
 				public void onSuccess(JSONObject arg0) {
-					// TODO Auto-generated method stub
 					if (Utils.requestOk(arg0)) {
 						data = JSON.parseObject(Utils.getResult(arg0),
 								PDetailsBean.class);
@@ -336,7 +395,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
 				@Override
 				public void onFailure(Throwable error, String message) {
-					// TODO Auto-generated method stub
 
 					super.onFailure(error, message);
 				}
@@ -350,12 +408,11 @@ public class GoodsDetailActivity extends BaseActivity {
 	}
 
 	private void setValue() {
-		// TODO Auto-generated method stub
 		product_id = data.getProducts().get(0).getId();
 		mSpecData = new HashMap<Integer, String>();
 		int size = data.getProducts().size();
 		for (int i = 0; i < size; i++) {
-			if (data.getProducts().get(i).getSpecs().size()>0) {
+			if (data.getProducts().get(i).getSpecs().size() > 0) {
 				mSpecData.put(i, data.getProducts().get(i).getSpecs().get(0)
 						.getSpec_value());
 				goods_detail_spec_name.setText(data.getProducts().get(0)
@@ -373,9 +430,12 @@ public class GoodsDetailActivity extends BaseActivity {
 		goods_details_old_price.getPaint()
 				.setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-		goods_details_old_price.setText("市场价￥" + data.getProducts().get(0).getMktprice());
-		goods_details_income.setText(data.getProducts().get(0).getAgent_income());
-		goods_details_new_price.setText("￥" + data.getProducts().get(0).getPrice());
+		goods_details_old_price.setText("市场价￥"
+				+ data.getProducts().get(0).getMktprice());
+		goods_details_income.setText(data.getProducts().get(0)
+				.getAgent_income());
+		goods_details_new_price.setText("￥"
+				+ data.getProducts().get(0).getPrice());
 		goods_details_title.setText(data.getName());
 		goods_detail_webview.loadData(data.getIntro(),
 				"text/html; charset=UTF-8", "UTF-8");
@@ -396,6 +456,111 @@ public class GoodsDetailActivity extends BaseActivity {
 		} else {
 			comment_layout.setVisibility(View.GONE);
 		}
+
+		// 2015年11月9日 18:38:32
+		isRun = true;
+		currentThreadName = "";
+		String remain_time = data.getRemain_time();
+		if (StringUtils.isNum(remain_time)) {
+			long remain_time_num = Long.parseLong(remain_time) * 1000;
+			if (remain_time_num > 0) {
+				ll_time.setVisibility(View.VISIBLE);
+				formatDuring(remain_time_num - 1 * 1000);
+				daysTv.setText(mDay + "");
+				hoursTv.setText(mHour + "");
+				minutesTv.setText(mMin + "");
+				secondsTv.setText(mSecond + "");
+				startRun();
+			} else {
+				ll_time.setVisibility(View.GONE);
+			}
+		} else {
+			ll_time.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		// if (thread != null) {
+		// Thread dummy = thread;
+		// thread = null;
+		// dummy.interrupt();
+		// }
+		isRun = false;
+		currentThreadName = "";
+	}
+
+	/**
+	 * @param 要转换的毫秒数
+	 * @return 该毫秒数转换为 * days * hours * minutes * seconds 后的格式
+	 */
+	public static void formatDuring(long mss) {
+		int DAY_HOUR = 24;
+		int HOUR_MIN = 60;
+		int MIN_SECOND = 60;
+		int SECOND_MSS = 1000;
+		long days = mss / (SECOND_MSS * HOUR_MIN * MIN_SECOND * DAY_HOUR);
+		long hours = (mss % (SECOND_MSS * HOUR_MIN * MIN_SECOND * DAY_HOUR))
+				/ (SECOND_MSS * HOUR_MIN * MIN_SECOND);
+		long minutes = (mss % (SECOND_MSS * HOUR_MIN * MIN_SECOND))
+				/ (SECOND_MSS * MIN_SECOND);
+		long seconds = (mss % (SECOND_MSS * MIN_SECOND)) / SECOND_MSS;
+		mDay = days;
+		mHour = hours;
+		mMin = minutes;
+		mSecond = seconds;// 天 ,小时,分钟,秒
+		// return days + " days " + hours + " hours " + minutes + " minutes "
+		// + seconds + " seconds ";
+		System.out.println("===============+" + days + " days " + hours
+				+ " hours " + minutes + " minutes " + seconds + " seconds ");
+	}
+
+	/**
+	 * 开启倒计时
+	 */
+	private void startRun() {
+		thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (isRun) {
+					try {
+						Log.d("debug", "---startRun方法所在的线程："
+								+ Thread.currentThread().getName());
+						Thread.sleep(1000); // sleep 1000ms
+						Message message = Message.obtain();
+						message.what = 2;
+						message.obj = "GoodsDetailActivity"
+								+ Thread.currentThread().getName();
+						timeHandler_qws.sendMessage(message);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		thread.start();
+	}
+
+	/**
+	 * 倒计时计算
+	 */
+	private void computeTime() {
+		mSecond--;
+		if (mSecond < 0) {
+			mMin--;
+			mSecond = 59;
+			if (mMin < 0) {
+				mMin = 59;
+				mHour--;
+				if (mHour < 0) {
+					// 倒计时结束
+					mHour = 23;
+					mDay--;
+				}
+			}
+		}
 	}
 
 	private void refresh(BnProduct product) {
@@ -414,7 +579,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	//
 	// public CommentDialog(Context context, String id) {
 	// super(context, R.style.Dialog);
-	// // TODO Auto-generated constructor stub
 	// this.context = context;
 	// this.id = id;
 	//
@@ -422,7 +586,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	//
 	// @Override
 	// protected void onCreate(Bundle savedInstanceState) {
-	// // TODO Auto-generated method stub
 	// super.onCreate(savedInstanceState);
 	// setContentView(R.layout.dialog_comment);
 	// init();
@@ -435,7 +598,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	//
 	// @Override
 	// public void onClick(View arg0) {
-	// // TODO Auto-generated method stub
 	// if (!StringUtils.isEmpty(comment.getText().toString())) {
 	//
 	// String url = UrlConfig.submitComment(context, id,
@@ -443,7 +605,6 @@ public class GoodsDetailActivity extends BaseActivity {
 	// HttpUtil.get(url, new JsonHttpResponseHandler() {
 	// @Override
 	// public void onSuccess(JSONObject arg0) {
-	// // TODO Auto-generated method stub
 	// BaseBean bean = JSON.parseObject(
 	// arg0.toString(), BaseBean.class);
 	// if (bean.getStatusCode().equals("200")) {

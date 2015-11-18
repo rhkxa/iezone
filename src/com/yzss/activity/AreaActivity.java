@@ -61,24 +61,24 @@ public class AreaActivity extends BaseActivity {
 		String title = "";
 		switch (area_id) {
 		case 1:
-			title = "买一赠一";
+			title = "买赠专区";
 			break;
 		case 2:
 			title = "食尚鲜果";
 			break;
 		case 3:
-			title = "鲜到鲜得";
+			title = "鲜到先得";
 			break;
 
 		}
 		headerFragment.setTitleText(title);
 		active_top_banner = (ImageView) findViewById(R.id.active_top_banner);
 		active_top_banner.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		active_gridview = (GridView) findViewById(R.id.active_gridview);
@@ -90,7 +90,8 @@ public class AreaActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Utils.toGoodDetail(AreaActivity.this, goodgrid.get(arg2).getId());
+				Utils.toGoodDetail(AreaActivity.this, goodgrid.get(arg2)
+						.getId());
 			}
 		});
 
@@ -103,10 +104,11 @@ public class AreaActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Utils.toGoodDetail(AreaActivity.this, goodlist.get(arg2).getGoods_id());
+				Utils.toGoodDetail(AreaActivity.this, goodlist.get(arg2)
+						.getGoods_id());
 			}
 		});
-		
+
 	}
 
 	private void loadData() {
@@ -135,9 +137,10 @@ public class AreaActivity extends BaseActivity {
 		goodlist.addAll(area.getGoods_banner());
 		mGAdapter.notifyDataSetChanged();
 		mLAdapter.notifyDataSetChanged();
-		if(area.getTop_banner().size()>0){
-		ImageLoader.getInstance().displayImage(
-				area.getTop_banner().get(0).getImg_url(), active_top_banner);
+		if (area.getTop_banner().size() > 0) {
+			ImageLoader.getInstance()
+					.displayImage(area.getTop_banner().get(0).getImg_url(),
+							active_top_banner);
 		}
 	}
 }
